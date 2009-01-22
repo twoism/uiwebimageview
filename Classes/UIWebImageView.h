@@ -20,6 +20,7 @@
 @property(nonatomic,retain) NSMutableData	*imageData;
 @property(nonatomic,retain) UIImage				*loadedImage;
 @property(nonatomic,retain) UIActivityIndicatorView *loader;
+- (id)initWithFrame:(CGRect)frame andUrl:(NSString*)url;	
 - (void)initRequest;
 
 @end
