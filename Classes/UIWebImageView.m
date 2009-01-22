@@ -50,17 +50,19 @@
 
 -(void)drawLoader:(CGRect)frame
 {
-	if (self.loader.isHidden == YES) {
+	
 		NSLog(@"is null");
 		self.loader = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake((frame.size.width/2)-10,(frame.size.height/2)-10,20,20)];
 		self.loader.hidesWhenStopped = YES;
 		[self.loader startAnimating];
 		[self addSubview:self.loader];
-	}else{
-		NSLog(@"is not null");
+	
+	//if (self.loader.isHidden == YES) {
+	//}else{
+		//NSLog(@"is not null");
 		//self.loader = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake((frame.size.width/2)-10,(frame.size.height/2)-10,20,20)];
-		[self.loader startAnimating];
-	}
+		//[self.loader startAnimating];
+	//}
 }
 
 
