@@ -41,33 +41,33 @@
 	[self drawLoader:self.frameRect];
 	NSURL *requestUrl 		= [NSURL URLWithString:self.imageUrl];
 	NSURLRequest *request = [NSURLRequest requestWithURL:requestUrl 
-																				cachePolicy:(NSURLRequestCachePolicy)nil 
-																				timeoutInterval:(NSTimeInterval)10];
+																					 cachePolicy:(NSURLRequestCachePolicy)NSURLRequestReloadIgnoringLocalCacheData 
+																			 timeoutInterval:(NSTimeInterval)10];
 	self.imageData    		= [[NSMutableData data] retain];
 	[NSURLConnection connectionWithRequest:request 
-									 delegate:self ];
+																delegate:self ];
 }
 
 -(void)drawLoader:(CGRect)frame
 {
 	
-		NSLog(@"is null");
-		self.loader = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake((frame.size.width/2)-10,(frame.size.height/2)-10,20,20)];
-		self.loader.hidesWhenStopped = YES;
-		[self.loader startAnimating];
-		[self addSubview:self.loader];
+	NSLog(@"is null");
+	self.loader = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake((frame.size.width/2)-10,(frame.size.height/2)-10,20,20)];
+	self.loader.hidesWhenStopped = YES;
+	[self.loader startAnimating];
+	[self addSubview:self.loader];
 	
 	//if (self.loader.isHidden == YES) {
 	//}else{
-		//NSLog(@"is not null");
-		//self.loader = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake((frame.size.width/2)-10,(frame.size.height/2)-10,20,20)];
-		//[self.loader startAnimating];
+	//NSLog(@"is not null");
+	//self.loader = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake((frame.size.width/2)-10,(frame.size.height/2)-10,20,20)];
+	//[self.loader startAnimating];
 	//}
 }
 
 
 - (void)drawRect:(CGRect)rect {
-    // Drawing code
+	// Drawing code
 }
 
 // NSURLConnection Delegate Methods //
@@ -78,6 +78,12 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
 	NSLog(@"Fininshed Loading...");
 	self.loadedImage = [[UIImage alloc] initWithData:self.imageData];
+	[self setAlpha:0];
+	[UIView beginAnimations:nil	context:NULL];
+	[UIView setAnimationDuration:1.0];
+	[self setAlpha:1.0];
+	[UIView commitAnimations];
+	
 	self.image			 = self.loadedImage;
 	[self.loader stopAnimating];
 	NSLog(@"image : %@",self.loadedImage);
