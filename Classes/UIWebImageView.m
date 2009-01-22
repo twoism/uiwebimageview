@@ -15,19 +15,18 @@
 @synthesize imageData;
 @synthesize loadedImage;
 @synthesize loader;
+@synthesize frameRect;
 
-- (id)initWithFrame:(CGRect)frame andUrl:(NSString*)url {
-    if (self = [super initWithFrame:frame]) {
-			self.imageUrl								 = url;
-			self.contentMode						 = UIViewContentModeScaleAspectFit;
-			self.backgroundColor         = [UIColor blackColor];
-			self.loader                  = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake((frame.size.width/2)-10,(frame.size.height/2)-10,20,20)];
-			self.loader.hidesWhenStopped = YES;
-			[self.loader startAnimating];
-			[self addSubview:self.loader];
-			[self initRequest];
-    }
-    return self;
+- (id)initWithFrame:(CGRect)frame andUrl:(NSString*)url 
+{
+	if (self = [super initWithFrame:frame]) {
+		self.imageUrl							= url;
+		self.contentMode					= UIViewContentModeScaleAspectFit;
+		self.backgroundColor      = [UIColor blackColor];
+		self.frameRect						= frame;
+		[self initRequest];
+	}
+	return self;
 }
 - (void)dealloc {
 	[imageUrl release];
@@ -39,6 +38,7 @@
 
 - (void)initRequest
 {
+	[self drawLoader:self.frameRect];
 	NSURL *requestUrl 		= [NSURL URLWithString:self.imageUrl];
 	NSURLRequest *request = [NSURLRequest requestWithURL:requestUrl 
 																				cachePolicy:(NSURLRequestCachePolicy)nil 
@@ -48,6 +48,20 @@
 									 delegate:self ];
 }
 
+-(void)drawLoader:(CGRect)frame
+{
+	if (self.loader.isHidden == YES) {
+		NSLog(@"is null");
+		self.loader = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake((frame.size.width/2)-10,(frame.size.height/2)-10,20,20)];
+		self.loader.hidesWhenStopped = YES;
+		[self.loader startAnimating];
+		[self addSubview:self.loader];
+	}else{
+		NSLog(@"is not null");
+		//self.loader = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake((frame.size.width/2)-10,(frame.size.height/2)-10,20,20)];
+		[self.loader startAnimating];
+	}
+}
 
 
 - (void)drawRect:(CGRect)rect {

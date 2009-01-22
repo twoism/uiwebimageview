@@ -14,13 +14,17 @@
 	NSMutableData	*imageData;
 	UIImage				*loadedImage;
 	UIActivityIndicatorView *loader;
+	CGRect				frameRect;
 }
 
 @property(nonatomic,retain) NSString 			*imageUrl;
 @property(nonatomic,retain) NSMutableData	*imageData;
 @property(nonatomic,retain) UIImage				*loadedImage;
+@property(nonatomic) CGRect								 frameRect;
 @property(nonatomic,retain) UIActivityIndicatorView *loader;
-- (id)initWithFrame:(CGRect)frame andUrl:(NSString*)url;	
+
+- (id)initWithFrame:(CGRect)frame andUrl:(NSString*)url;
+- (void)drawLoader:(CGRect)frame;
 - (void)initRequest;
 
 @end

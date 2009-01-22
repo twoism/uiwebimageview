@@ -38,11 +38,14 @@
 	http://farm2.static.flickr.com/1279/556835763_704e41645e_o.jpg
 	http://farm2.static.flickr.com/1204/789803401_0017756904.jpg
 	*/
-	NSString *url = [[NSString alloc] initWithString:@"http://farm3.static.flickr.com/2257/2148600733_4f68166e44_o.jpg"];
+	NSString *url = [[NSString alloc] initWithString:@"http://farm3.static.flickr.com/2257/2148600733_4643d5172f.jpg"];
 	
 	UIWebImageView *webImage = [[UIWebImageView alloc] initWithFrame:CGRectMake(0,0,300,300) andUrl:url];	
 	
 	[[self view] addSubview:webImage];
+	
+	webImage.imageUrl = @"http://farm2.static.flickr.com/1279/556835763_704e41645e_o.jpg";
+	[webImage initRequest];
 	
 	[super viewDidLoad];
 }
