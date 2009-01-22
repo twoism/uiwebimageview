@@ -1,6 +1,6 @@
 = UIWebImageView
 
-This subclass of UIImageView provides asynchronous loading of web images. By using the initWithFrame:frame andUrl:url initializer and reseved space for the image with and ActivityIndicator will be created.
+This subclass of UIImageView provides asynchronous loading of web images. By using the initWithFrame:frame andUrl:url initializer and reserved space for the image with an ActivityIndicator will be created.
 
 == Example Usage
 
