@@ -51,7 +51,6 @@
 -(void)drawLoader:(CGRect)frame
 {
 	
-	NSLog(@"is null");
 	self.loader = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake((frame.size.width/2)-10,(frame.size.height/2)-10,20,20)];
 	self.loader.hidesWhenStopped = YES;
 	[self.loader startAnimating];
@@ -78,10 +77,15 @@
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
 	NSLog(@"Fininshed Loading...");
 	self.loadedImage = [[UIImage alloc] initWithData:self.imageData];
-	[self setAlpha:0];
+	
+	
+	
+	//[self setAlpha:0];
 	[UIView beginAnimations:nil	context:NULL];
+	[UIView setAnimationTransition: UIViewAnimationTransitionFlipFromLeft forView:self cache:YES];
+	
 	[UIView setAnimationDuration:1.0];
-	[self setAlpha:1.0];
+	//[self setAlpha:1.0];
 	[UIView commitAnimations];
 	
 	self.image			 = self.loadedImage;
