@@ -5,26 +5,19 @@
 //  Created by Christopher Burnett on 1/22/09.
 //  Copyright 2009 Digital Scientists. All rights reserved.
 //
+//  Forked by Dylan Copeland on 9/23/09.
+//  Copyright 2009 DC Studios, LLC. All rights reserved.
 
 #import <UIKit/UIKit.h>
 
-
 @interface UIWebImageView : UIImageView {
-	NSString 			*imageUrl;
-	NSMutableData	*imageData;
-	UIImage				*loadedImage;
-	UIActivityIndicatorView *loader;
-	CGRect				frameRect;
+	NSMutableData *imageData;
+	UIActivityIndicatorView *activityIndicator;
 }
 
-@property(nonatomic,retain) NSString 			*imageUrl;
-@property(nonatomic,retain) NSMutableData	*imageData;
-@property(nonatomic,retain) UIImage				*loadedImage;
-@property(nonatomic) CGRect								 frameRect;
-@property(nonatomic,retain) UIActivityIndicatorView *loader;
-
-- (id)initWithFrame:(CGRect)frame andUrl:(NSString*)url;
-- (void)drawLoader:(CGRect)frame;
-- (void)initRequest;
+- (id)initWithFrame:(CGRect)frame;
+- (id)initWithFrame:(CGRect)frame andUrl:(NSURL *)url;
+- (void)downloadImage:(NSURL *)url;
 
 @end
+

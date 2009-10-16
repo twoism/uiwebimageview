@@ -5,103 +5,87 @@
 //  Created by Christopher Burnett on 1/22/09.
 //  Copyright 2009 Digital Scientists. All rights reserved.
 //
+//  Forked by Dylan Copeland on 9/23/09.
+//  Copyright 2009 DC Studios, LLC. All rights reserved.
 
 #import "UIWebImageView.h"
 
-
 @implementation UIWebImageView
 
-@synthesize imageUrl;
-@synthesize imageData;
-@synthesize loadedImage;
-@synthesize loader;
-@synthesize frameRect;
+#pragma mark -
+#pragma mark Public Methods
 
-- (id)initWithFrame:(CGRect)frame andUrl:(NSString*)url 
-{
+- (id)initWithFrame:(CGRect)frame {
 	if (self = [super initWithFrame:frame]) {
-		self.imageUrl							= url;
-		self.contentMode					= UIViewContentModeScaleAspectFit;
-		self.backgroundColor      = [UIColor blackColor];
-		self.frameRect						= frame;
-		[self initRequest];
+		imageData = [[NSMutableData alloc] init];
+		
+		activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+		CGFloat xCoord = (frame.size.width / 2.0f) - [activityIndicator frame].size.width;
+		CGFloat yCoord = (frame.size.height / 2.0f) - [activityIndicator frame].size.height;
+		[activityIndicator setFrame:CGRectMake(xCoord, yCoord, [activityIndicator frame].size.width, [activityIndicator frame].size.height)];
+		[activityIndicator setHidesWhenStopped:YES];
+		
+		[self addSubview:activityIndicator];
 	}
+	
 	return self;
 }
-- (void)dealloc {
-	[imageUrl release];
-	[loadedImage release];
-	[imageData release];
-	[loader release];
-	[super dealloc];
-}
 
-- (void)initRequest
-{
-	[self drawLoader:self.frameRect];
-	NSURL *requestUrl 		= [NSURL URLWithString:self.imageUrl];
-	NSURLRequest *request = [NSURLRequest requestWithURL:requestUrl 
-																					 cachePolicy:(NSURLRequestCachePolicy)NSURLRequestReloadIgnoringLocalCacheData 
-																			 timeoutInterval:(NSTimeInterval)10];
-	self.imageData    		= [[NSMutableData data] retain];
-	[NSURLConnection connectionWithRequest:request 
-																delegate:self ];
-}
+- (id)initWithFrame:(CGRect)frame andUrl:(NSURL *)url {
+	if (self = [super initWithFrame:frame]) {
+		imageData = [[NSMutableData alloc] init];
+		
+		activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+		CGFloat xCoord = (frame.size.width / 2.0f) - [activityIndicator frame].size.width;
+		CGFloat yCoord = (frame.size.height / 2.0f) - [activityIndicator frame].size.height;
+		[activityIndicator setFrame:CGRectMake(xCoord, yCoord, [activityIndicator frame].size.width, [activityIndicator frame].size.height)];
+		[activityIndicator setHidesWhenStopped:YES];
+		
+		[self addSubview:activityIndicator];
+		
+		
+		[activityIndicator startAnimating];
+		
+		NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+		NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
 
--(void)drawLoader:(CGRect)frame
-{
+		[request release];
+		[connection release];
+	}
 	
-	self.loader = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake((frame.size.width/2)-10,(frame.size.height/2)-10,20,20)];
-	self.loader.hidesWhenStopped = YES;
-	[self.loader startAnimating];
-	[self addSubview:self.loader];
+	return self;
+}
+
+- (void)downloadImage:(NSURL *)url {
+	[activityIndicator startAnimating];
 	
-	//if (self.loader.isHidden == YES) {
-	//}else{
-	//NSLog(@"is not null");
-	//self.loader = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake((frame.size.width/2)-10,(frame.size.height/2)-10,20,20)];
-	//[self.loader startAnimating];
-	//}
+	NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
+	NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
+	
+	[request release];
+	[connection release];	
 }
 
+#pragma mark -
+#pragma mark NSURLConnectionDelegate
 
-- (void)drawRect:(CGRect)rect {
-	// Drawing code
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
+	[imageData appendData:data];
 }
 
-// NSURLConnection Delegate Methods //
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSMutableData *)data {
-	NSLog(@"Recieving Data...");
-	[[self imageData] appendData:data];
-}
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-	NSLog(@"Fininshed Loading...");
-	self.loadedImage = [[UIImage alloc] initWithData:self.imageData];
+	[activityIndicator stopAnimating];
 	
-	
-	
-	//[self setAlpha:0];
-	[UIView beginAnimations:nil	context:NULL];
-	[UIView setAnimationTransition: UIViewAnimationTransitionFlipFromLeft forView:self cache:YES];
-	
-	[UIView setAnimationDuration:1.0];
-	//[self setAlpha:1.0];
-	[UIView commitAnimations];
-	
-	self.image			 = self.loadedImage;
-	[self.loader stopAnimating];
-	NSLog(@"image : %@",self.loadedImage);
+	UIImage *downloadedImage = [[UIImage alloc] initWithData:imageData];
+	[self setImage:downloadedImage];
+	[downloadedImage release];
 }
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error{
-	UIAlertView *alert = [[UIAlertView alloc] initWithTitle:[error localizedDescription]
-																									message:[error localizedFailureReason]
-																								 delegate:self 
-																				cancelButtonTitle:@"OK"
-																				otherButtonTitles: nil];
-	
-	[alert show];
-	[alert release];
+
+- (void)dealloc {
+	[imageData release];
+	[activityIndicator release];
+    [super dealloc];
 }
-// ----------------------------- //
+
 
 @end
