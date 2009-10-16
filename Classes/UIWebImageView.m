@@ -32,18 +32,7 @@
 }
 
 - (id)initWithFrame:(CGRect)frame andUrl:(NSURL *)url {
-	if (self = [super initWithFrame:frame]) {
-		imageData = [[NSMutableData alloc] init];
-		
-		activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-		CGFloat xCoord = (frame.size.width / 2.0f) - [activityIndicator frame].size.width;
-		CGFloat yCoord = (frame.size.height / 2.0f) - [activityIndicator frame].size.height;
-		[activityIndicator setFrame:CGRectMake(xCoord, yCoord, [activityIndicator frame].size.width, [activityIndicator frame].size.height)];
-		[activityIndicator setHidesWhenStopped:YES];
-		
-		[self addSubview:activityIndicator];
-		
-		
+	if (self = [self initWithFrame:frame]) {
 		[activityIndicator startAnimating];
 		
 		NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
