@@ -38,11 +38,11 @@
 	http://farm2.static.flickr.com/1279/556835763_704e41645e_o.jpg
 	http://farm2.static.flickr.com/1204/789803401_0017756904.jpg
 	*/
-	NSString *url = [[NSString alloc] initWithString:@"http://trouble.philadelphiaweekly.com/archives/lemur%20tongue.jpg"];
+	NSString *url = [[[NSString alloc] initWithString:@"http://trouble.philadelphiaweekly.com/archives/lemur%20tongue.jpg"] autorelease];
 	
-	UIWebImageView *webImage = [[UIWebImageView alloc] initWithFrame:CGRectMake(0,0,320,480) 
+	UIWebImageView *webImage = [[[UIWebImageView alloc] initWithFrame:CGRectMake(0,0,320,480) 
 															  andUrl:[NSURL URLWithString:url] 
-															animated:YES];	
+															 animated:YES] autorelease];	
 	
 	[[self view] addSubview:webImage];
 	
