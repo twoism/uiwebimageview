@@ -1,12 +1,13 @@
 = UIWebImageView
 
-This subclass of UIImageView provides asynchronous loading of web images. By using the initWithFrame:frame andUrl:url initializer and reserved space for the image with an ActivityIndicator will be created.
+This subclass of UIImageView provides asynchronous loading of web images. By using the initWithFrame:frame andUrl:url animated:animated initializer and reserved space for the image with an ActivityIndicator will be created.
 
 == Example Usage
 
 Create a NSString for the URL you want to load, initialize UIWebImage and add it to your view.
 
   NSString *url = [[NSString alloc] initWithString:@"http://farm2.static.flickr.com/1204/789803401_0017756904.jpg"];
-  UIWebImageView *webImage = [[UIWebImageView alloc] initWithFrame:CGRectMake(0,0,300,300) andUrl:url];	
+  UIWebImageView *webImage = [[UIWebImageView alloc] initWithFrame:CGRectMake(0,0,300,300) andUrl:url animated:YES];	
   [[self view] addSubview:webImage];
+
 
