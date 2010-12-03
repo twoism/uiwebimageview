@@ -13,10 +13,13 @@
 @interface UIWebImageView : UIImageView {
 	NSMutableData *imageData;
 	UIActivityIndicatorView *activityIndicator;
+	BOOL animate;
 }
 
+@property(readwrite) BOOL animate;
+
 - (id)initWithFrame:(CGRect)frame;
-- (id)initWithFrame:(CGRect)frame andUrl:(NSURL *)url;
+- (id)initWithFrame:(CGRect)frame andUrl:(NSURL *)url animated:(BOOL)animated;
 - (void)downloadImage:(NSURL *)url;
 
 @end

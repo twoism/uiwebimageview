@@ -12,6 +12,11 @@
 
 @implementation UIWebImageView
 
+
+#define kAnimationDuration 0.5
+
+@synthesize animate;
+
 #pragma mark -
 #pragma mark Public Methods
 
@@ -31,9 +36,11 @@
 	return self;
 }
 
-- (id)initWithFrame:(CGRect)frame andUrl:(NSURL *)url {
+- (id)initWithFrame:(CGRect)frame andUrl:(NSURL *)url animated:(BOOL)animated {
 	if (self = [self initWithFrame:frame]) {
 		[activityIndicator startAnimating];
+		
+		animate = animated;
 		
 		NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url];
 		NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
@@ -66,7 +73,30 @@
 	[activityIndicator stopAnimating];
 	
 	UIImage *downloadedImage = [[UIImage alloc] initWithData:imageData];
-	[self setImage:downloadedImage];
+	
+	
+	if (animate) {
+		
+		[self setAlpha:0];
+	
+		[UIView beginAnimations:@"Animations" context:nil];
+		[UIView setAnimationDuration:kAnimationDuration];
+		[UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+
+		[self setAlpha:100];
+		
+		[UIView commitAnimations];
+		
+		
+	}
+	
+		
+		
+		[self setImage:downloadedImage];
+		
+	
+
+	
 	[downloadedImage release];
 }
 

@@ -40,7 +40,9 @@
 	*/
 	NSString *url = [[NSString alloc] initWithString:@"http://trouble.philadelphiaweekly.com/archives/lemur%20tongue.jpg"];
 	
-	UIWebImageView *webImage = [[UIWebImageView alloc] initWithFrame:CGRectMake(0,0,320,480) andUrl:[NSURL URLWithString:url]];	
+	UIWebImageView *webImage = [[UIWebImageView alloc] initWithFrame:CGRectMake(0,0,320,480) 
+															  andUrl:[NSURL URLWithString:url] 
+															animated:YES];	
 	
 	[[self view] addSubview:webImage];
 	
